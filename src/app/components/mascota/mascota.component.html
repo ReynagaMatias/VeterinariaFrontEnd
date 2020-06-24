@@ -1,0 +1,229 @@
+<div class="container">
+    <div class="row">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#exampleModal">
+    Agregar Mascota
+  </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mascota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="col-md-12" method="post" action="" #formAgregarMascota="ngForm">
+                            <div class="form-group row">
+                                <label for="nombre" class="col-md-4">Nombre :</label>
+                                <input type="text" id="nombre" [(ngModel)]="mascota.nombre" class="form-control form-control-sm col-md-8" name="nombre" #nombre="ngModel" required/>
+                            </div>
+
+                            <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger">
+
+                                <div *ngIf="nombre.errors.required">
+                                    Ingrese un nombre.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="edad" class="col-md-4">Edad :</label>
+                                <input type="number" id="edad" [(ngModel)]="mascota.edad" class="form-control form-control-sm col-md-8" name="edad" #edad="ngModel" required />
+                            </div>
+
+                            <div *ngIf="edad.invalid && (edad.dirty || edad.touched)" class="alert alert-danger">
+
+                                <div *ngIf="edad.errors.required">
+                                    Ingrese la edad.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="raza" class="col-md-4">Raza :</label>
+                                <input type="text" id="raza" [(ngModel)]="mascota.raza" class="form-control form-control-sm col-md-8" name="raza" #raza="ngModel" required />
+                            </div>
+                            <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="alert alert-danger">
+
+                                <div *ngIf="raza.errors.required">
+                                    Ingrese raza.
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="sexo" class="col-md-4">Sexo :</label>
+                                <select id="sexo" name="sexo" [(ngModel)]="mascota.sexo" class="form-control form-control-sm col-md-8" #sexo="ngModel" required>
+                                    <option value="" disabled selected >-- Seleccione Sexo --</option>
+                                    <option value="Macho" >Macho</option>
+                                    <option value="Hembra">Hembra</option>
+                                </select>
+                            </div>
+
+                            <div *ngIf="sexo.invalid && (sexo.dirty || sexo.touched)" class="alert alert-danger">
+
+                                <div *ngIf="sexo.errors.required">
+                                    Seleccione el sexo.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="esterilizado" class="col-md-4">Esterilizado :</label>
+                                <select id="esterilizado" name="esterilizado" [(ngModel)]="mascota.esterilizado" class="form-control form-control-sm col-md-8" #esterilizado="ngModel" required>
+                                    <option  value="" disabled selected>-- Seleccione una Opcion --</option>
+                                    <option value="Si" >Si</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+
+                            <div *ngIf="esterilizado.invalid && (esterilizado.dirty || esterilizado.touched)" class="alert alert-danger">
+
+                                <div *ngIf="esterilizado.errors.required">
+                                    Seleccione Esterilizado.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fechaNacimiento" class="col-md-4">Fecha Nacimiento :</label>
+                                <input type="date" id="fechaNacimiento" [(ngModel)]=" mascota.fechaNacimiento " class="form-control form-control-sm col-md-8 " name="fechaNacimiento " required #fechaNacimiento="ngModel" />
+                            </div>
+                            <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched) " class="alert alert-danger ">
+
+                                <div *ngIf="fechaNacimiento.errors.required ">
+                                    Seleccione una opcion.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button " class="btn btn-secondary " data-dismiss="modal">Cancelar</button>
+                        <button type="button " class="btn btn-primary " [disabled]="formAgregarMascota.invalid" (click)="guardarMascota()">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mt-5 ">Listado de Mascotas</h4>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th scope="col ">Nombre</th>
+                <th scope="col ">Sexo</th>
+                <th scope="col ">Raza</th>
+                <th scope="col ">Edad</th>
+                <th scope="col ">Esterilizado</th>
+                <th scope="col ">Fecha De Nacimiento</th>
+                <th scope="col ">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let m of listaMascotas ">
+                <th>{{m.nombre}}</th>
+                <td>{{m.sexo}}</td>
+                <td>{{m.raza}}</td>
+                <td>{{m.edad}}</td>
+                <td>{{m.esterilizado}}</td>
+                <td>{{m.fechaNacimiento | date:'dd-MM-yyyy' }}</td>
+                <td>
+                    <button class="btn btn-primary " (click)="borrarMascota(m) "><i class="far fa-trash-alt "></i></button>
+                    <button class="btn btn-primary " (click)="seleccionarMascota(m) " data-toggle="modal" data-target="#exampleModa2"><i class="fas fa-edit"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModa2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title " id="exampleModalLabel">Mascota</h5>
+                <button type="button " class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true ">&times;</span>
+  </button>
+            </div>
+            <div class="modal-body">
+                <form class="col-md-12" method="post" action=" " #formEditarMascota="ngForm">
+                    <div class="form-group row ">
+                        <label for="nombre" class="col-md-4 ">Nombre :</label>
+                        <input type="text" id="nombre " [(ngModel)]="mascota.nombre" class="form-control form-control-sm col-md-8" name="nombre" #nombre="ngModel" required/>
+                    </div>
+
+                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="alert alert-danger ">
+
+                        <div *ngIf="nombre.errors.required ">
+                            Ingrese un nombre.
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label for="edad " class="col-md-4 ">Edad :</label>
+                        <input type="number " id="edad " [(ngModel)]="mascota.edad" class="form-control form-control-sm col-md-8 " name="edad " #edad="ngModel" required />
+                    </div>
+
+                    <div *ngIf="edad.invalid && (edad.dirty || edad.touched)" class="alert alert-danger ">
+
+                        <div *ngIf="edad.errors.required ">
+                            Ingrese la edad.
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label for="raza " class="col-md-4 ">Raza :</label>
+                        <input type="text " id="raza " [(ngModel)]="mascota.raza" class="form-control form-control-sm col-md-8 " name="raza " #raza="ngModel" required />
+                    </div>
+                    <div *ngIf="raza.invalid && (raza.dirty || raza.touched)" class="alert alert-danger ">
+
+                        <div *ngIf="raza.errors.required">
+                            Ingrese raza.
+                        </div>
+                    </div>
+
+                    <div class="form-group row ">
+                        <label for="sexo" class="col-md-4 ">Sexo :</label>
+                        <select id="sexo" name="sexo " [(ngModel)]="mascota.sexo" class="form-control form-control-sm col-md-8 " #sexo="ngModel" required>
+                            <option value="" disabled selected >-- Seleccione Sexo --</option>
+                            <option value="Macho" >Macho</option>
+                            <option value="Hembra">Hembra</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="sexo.invalid && (sexo.dirty || sexo.touched) " class="alert alert-danger ">
+
+                        <div *ngIf="sexo.errors.required ">
+                            Seleccione el sexo.
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="esterilizado" class="col-md-4 ">Esterilizado :</label>
+                        <select id="esterilizado" name="esterilizado " [(ngModel)]="mascota.esterilizado" class="form-control form-control-sm col-md-8 " #esterilizado="ngModel" required>
+                            <option  value="" disabled selected>-- Seleccione una Opcion --</option>
+                            <option value="Si" >Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="esterilizado.invalid && (esterilizado.dirty || esterilizado.touched) " class="alert alert-danger ">
+
+                        <div *ngIf="esterilizado.errors.required ">
+                            Seleccione Esterilizado.
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label for="fechaNacimiento" class="col-md-4 ">Fecha Nacimiento :</label>
+                        <input type="date" id="fechaNacimiento" value="{{mascota.fechaNacimiento}}" [ngModel]="mascota.fechaNacimiento | date:'yyyy-MM-dd'" class="form-control form-control-sm col-md-8 " name="fechaNacimiento " required #fechaNacimiento="ngModel" />
+                    </div>
+                    <div *ngIf="fechaNacimiento.invalid && (fechaNacimiento.dirty || fechaNacimiento.touched) " class="alert alert-danger ">
+
+                        <div *ngIf="fechaNacimiento.errors.required ">
+                            Seleccione una opcion.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="limpiar()" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" [disabled]="formEditarMascota.invalid" (click)="modificarMascota()">Guarcar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>

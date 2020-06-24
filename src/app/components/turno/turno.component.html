@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary mt-5" data-toggle="modal" data-target="#exampleModal">
+    Asignar Turno
+  </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Turno</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="col-md-12" method="post" action="" #formAgregarTurno="ngForm">
+                            <div class="form-group row">
+                                <label for="fecha" class="col-md-4">Fecha :</label>
+                                <input type="date" id="fecha" [(ngModel)]="turno.fecha" class="form-control form-control-sm col-md-8" name="fecha" #fecha="ngModel" required/>
+                            </div>
+
+                            <div *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)" class="alert alert-danger">
+
+                                <div *ngIf="fecha.errors.required">
+                                    Ingrese una fecha.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="motivo" class="col-md-4">Motivo :</label>
+                                <input type="text" id="motivo" [(ngModel)]="turno.motivo" class="form-control form-control-sm col-md-8" name="motivo" #motivo="ngModel" required />
+                            </div>
+
+                            <div *ngIf="motivo.invalid && (motivo.dirty || motivo.touched)" class="alert alert-danger">
+
+                                <div *ngIf="motivo.errors.required">
+                                    Ingrese el motivo.
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="mascota" class="col-md-4">Mascota</label>
+                                <select id="mascota" class="form-control form-control-sm col-md-8" required name="mascota" #mascota="ngModel" [(ngModel)]="turno.mascota" required>
+                                    <option *ngFor="let m of listaDeMascotas" [ngValue]="m" >{{m.nombre}} - {{m.raza}} - {{m.sexo}}</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button " class="btn btn-secondary " (click)="limpiarCampos()" data-dismiss="modal">Cancelar</button>
+                        <button type="button " class="btn btn-primary " [disabled]="formAgregarTurno.invalid" (click)="guardarTurno()">Agregar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="mt-5 ">Listado de Turnos</h4>
+    <table class="table ">
+        <thead>
+            <tr>
+                <th scope="col ">Fecha</th>
+                <th scope="col ">Motivo</th>
+                <th scope="col ">Mascota</th>
+                <th scope="col ">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of listaDeTurnos">
+                <th>{{t.fecha | date:'dd-MM-yyyy' }}</th>
+                <td>{{t.motivo}}</td>
+                <td>{{t.mascota.nombre}} - {{t.mascota.raza}} - {{t.mascota.sexo}}</td>
+                <td>
+                    <button class="btn btn-primary " (click)="borrarTurno(t)"><i class="far fa-trash-alt "></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+</div>
